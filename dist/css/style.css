@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Philosopher&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Kanit&family=Philosopher&display=swap");
 
 * {
   box-sizing: border-box;
@@ -12,6 +12,18 @@ body {
   flex-direction: column;
   align-items: center;
 }
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.8);
+  filter: blur(2px);
+  z-index: 1;
+}
+
 header {
   padding: 3rem;
   font-family: Philosopher;
@@ -22,44 +34,59 @@ header {
   display: flex;
   flex-wrap: wrap;
   gap: 1rem;
-  width: 54rem;
+  width: 60rem;
   height: 40rem;
+  text-align: center;
+  font-family: Kanit;
+}
+.book-collection h3 {
+  margin-top: 1rem;
 }
 
-.book-collection > div {
+.image {
   width: 12.5rem;
   height: 15rem;
-  /* border: 2px solid black; */
-  background-size: 100% 100%;
   box-shadow: 10px 10px 5px -4px rgba(0, 0, 0, 0.31);
-}
-
-.book-collection > div:hover {
+  object-fit: fill;
   cursor: pointer;
 }
 
-.book-one {
-  background-image: url(https://m.media-amazon.com/images/I/A1zwGu18b3L._AC_UF1000,1000_QL80_.jpg);
-}
-.book-two {
-  background-image: url(https://m.media-amazon.com/images/I/61ASCNFMAlL._AC_UF1000,1000_QL80_.jpg);
+article {
+  position: fixed;
+  top: 6rem;
+  width: 40rem;
+  height: 37rem;
+  opacity: 2;
+  z-index: 2;
+  border-radius: 1rem;
+  text-align: center;
+  padding: 0 4rem;
+  font-family: Kanit;
+  background-color: rgba(255, 255, 255);
 }
 
-.book-three {
-  background-image: url(https://embed.cdn.pais.scholastic.com/v1/channels/clubs-us/products/identifiers/isbn/9780590302715/primary/renditions/900);
+article h1,
+h4 {
+  padding-bottom: 1rem;
 }
-.book-four {
-  background-image: url(https://classicaleducationbooks.ca/wp-content/uploads/2019/02/Harold-and-the-Purple-Caryon.jpg);
+
+button {
+  /* padding: 0.4rem; */
+  margin: 1rem;
+  border: none;
+  background: none;
+  color: inherit;
+  font-size: 3rem;
+  border-radius: 50%;
+  cursor: pointer;
 }
-.book-five {
-  background-image: url(https://i.pinimg.com/originals/90/93/d8/9093d8a2435d0a9f7646b4ded0b4557e.jpg);
-}
-.book-six {
-  background-image: url(https://m.media-amazon.com/images/W/MEDIAX_792452-T2/images/I/91WuHblNkEL._AC_UF894,1000_QL80_.jpg);
-}
-.book-seven {
-  background-image: url(https://cdn.kobo.com/book-images/eee35fef-dd6b-48b3-9d76-cd40b09298a4/1200/1200/False/a-wrinkle-in-time-trilogy-1.jpg);
-}
-.book-eight {
-  background-image: url(https://cdn2.penguin.com.au/covers/original/9780140569322.jpg);
+article section {
+  /* margin-left: 2rem; */
+  margin-top: 2rem;
+  padding: 1rem;
+  display: grid;
+  grid-template-columns: repeat(2, 15rem);
+  gap: 1rem;
+  text-align: left;
+  background-color: rgb(180, 180, 180, 0.15);
 }

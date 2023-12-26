@@ -1,0 +1,65 @@
+@import url("https://fonts.googleapis.com/css2?family=Philosopher&display=swap");
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+}
+header {
+  padding: 3rem;
+  font-family: Philosopher;
+  font-size: 4rem;
+}
+
+.book-collection {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  width: 54rem;
+  height: 40rem;
+}
+
+.book-collection > div {
+  width: 12.5rem;
+  height: 15rem;
+  /* border: 2px solid black; */
+  background-size: 100% 100%;
+  box-shadow: 10px 10px 5px -4px rgba(0, 0, 0, 0.31);
+}
+
+.book-collection > div:hover {
+  cursor: pointer;
+}
+
+.book-one {
+  background-image: url(https://m.media-amazon.com/images/I/A1zwGu18b3L._AC_UF1000,1000_QL80_.jpg);
+}
+.book-two {
+  background-image: url(https://m.media-amazon.com/images/I/61ASCNFMAlL._AC_UF1000,1000_QL80_.jpg);
+}
+
+.book-three {
+  background-image: url(https://embed.cdn.pais.scholastic.com/v1/channels/clubs-us/products/identifiers/isbn/9780590302715/primary/renditions/900);
+}
+.book-four {
+  background-image: url(https://classicaleducationbooks.ca/wp-content/uploads/2019/02/Harold-and-the-Purple-Caryon.jpg);
+}
+.book-five {
+  background-image: url(https://i.pinimg.com/originals/90/93/d8/9093d8a2435d0a9f7646b4ded0b4557e.jpg);
+}
+.book-six {
+  background-image: url(https://m.media-amazon.com/images/W/MEDIAX_792452-T2/images/I/91WuHblNkEL._AC_UF894,1000_QL80_.jpg);
+}
+.book-seven {
+  background-image: url(https://cdn.kobo.com/book-images/eee35fef-dd6b-48b3-9d76-cd40b09298a4/1200/1200/False/a-wrinkle-in-time-trilogy-1.jpg);
+}
+.book-eight {
+  background-image: url(https://cdn2.penguin.com.au/covers/original/9780140569322.jpg);
+}

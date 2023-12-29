@@ -1,5 +1,5 @@
 // INTERFACES
-import {Book} from "./interfaces.js";
+import {Book} from "./interfaces";
 
 let overlay: HTMLDivElement;
 

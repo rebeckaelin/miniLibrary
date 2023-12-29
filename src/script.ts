@@ -1,18 +1,12 @@
 // INTERFACES
-interface Book {
-  title: string;
-  author: string;
-  plot: string;
-  audience: string;
-  year: number;
-  pages: number;
-  publisher: string;
-  color: string;
-}
+import {Book} from "./interfaces.js";
 
-let bookData: Book[] = [];
 let overlay: HTMLDivElement;
 
+const bookCollection: NodeListOf<HTMLDivElement> =
+  document.querySelectorAll(".book");
+
+let newBookCollection: HTMLDivElement[] = Array.from(bookCollection);
 // fetch av data
 
 async function getBookData(): Promise<void> {
@@ -22,7 +16,6 @@ async function getBookData(): Promise<void> {
     );
     this.bookData = await response.json();
     // console.log(this.bookData);
-    getBook(this.bookData);
   } catch (error: unknown) {
     if (error instanceof Error) {
       console.log("Error", error.message);
@@ -34,12 +27,35 @@ async function getBookData(): Promise<void> {
 
 //   ******************** FUNKTIONER *************************
 
-function showBookInfo() {
-  getBookData();
-  const bookCollection: NodeListOf<HTMLDivElement> =
-    document.querySelectorAll(".book");
+function searchBook(): void {
+  let searchForm = document.getElementById("search-form") as HTMLFormElement;
+  searchForm.addEventListener("submit", (event: SubmitEvent) => {
+    event.preventDefault();
+    let searchField = document.getElementById("search") as HTMLInputElement;
+    let searchValue: string = searchField.value.toLowerCase();
+    // console.log(searchValue);
 
-  let newBookCollection: HTMLDivElement[] = Array.from(bookCollection);
+    if (searchValue.length < 3) {
+      return;
+    }
+
+    let clickedBook: Book | undefined = this.bookData.find((book: Book) =>
+      book.title.toLowerCase().includes(searchValue)
+    );
+
+    if (clickedBook) {
+      createBookInfo(clickedBook);
+    } else {
+      console.log("Ingen bok hittades med den söksträngen");
+    }
+    searchField.value = "";
+  });
+}
+
+searchBook();
+
+function showBookInfo(newBookCollection: HTMLDivElement[]): void {
+  getBookData();
 
   newBookCollection.forEach((book: HTMLDivElement) => {
     book.addEventListener("click", (): void => {
@@ -61,16 +77,16 @@ function showBookInfo() {
 function createBookInfo(clickedBook: Book): void {
   overlay = addOverlay();
 
-  let infoPage = document.createElement("article");
-  let details = document.createElement("section");
-  let closeButton = document.createElement("button");
-  let title = document.createElement("h1");
-  let author = document.createElement("h4");
-  let plot = document.createElement("p");
-  let audience = document.createElement("p");
-  let published = document.createElement("p");
-  let numOfPages = document.createElement("p");
-  let publisher = document.createElement("p");
+  let infoPage: HTMLElement = document.createElement("article");
+  let details: HTMLElement = document.createElement("section");
+  let closeButton: HTMLButtonElement = document.createElement("button");
+  let title: HTMLElement = document.createElement("h1");
+  let author: HTMLElement = document.createElement("h4");
+  let plot: HTMLParagraphElement = document.createElement("p");
+  let audience: HTMLParagraphElement = document.createElement("p");
+  let published: HTMLParagraphElement = document.createElement("p");
+  let numOfPages: HTMLParagraphElement = document.createElement("p");
+  let publisher: HTMLParagraphElement = document.createElement("p");
 
   title.textContent = `${clickedBook.title}`;
   author.textContent = `Author: ${clickedBook.author}`;
@@ -122,10 +138,4 @@ function addOverlay(): HTMLDivElement {
   return overlay;
 }
 
-function getBook(bookData: Book[]) {
-  bookData.forEach((book) => {
-    // console.log(book);
-  });
-}
-
-showBookInfo();
+showBookInfo(newBookCollection);

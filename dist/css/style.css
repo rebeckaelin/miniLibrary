@@ -28,6 +28,23 @@ header {
   padding: 3rem;
   font-family: Philosopher;
   font-size: 4rem;
+  text-align: center;
+}
+
+input[type="submit"] {
+  font-family: Kanit;
+  padding: 0.3rem;
+  border: none;
+  background: none;
+}
+
+input[type="submit"]:hover {
+  cursor: pointer;
+  background-color: rgb(145, 219, 219, 0.3);
+}
+
+input[type="search"] {
+  padding: 0.4rem;
 }
 
 .book-collection {

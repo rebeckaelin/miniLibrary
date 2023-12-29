@@ -3,11 +3,22 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title></title>
+    <title>Mini Library</title>
     <link rel="stylesheet" href="./css/style.css" />
   </head>
   <body>
-    <header>8 Classic Childrens books</header>
+    <header>
+      8 Classic Childrens books
+      <form id="search-form" action="">
+        <input
+          type="search"
+          placeholder="search book"
+          autocomplete="off"
+          name="search"
+          id="search" />
+        <input type="submit" value="Let's find it!" />
+      </form>
+    </header>
     <section class="book-collection">
       <div class="book-one book" data-title="Madeline">
         <img

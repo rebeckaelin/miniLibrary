@@ -7,14 +7,14 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-let bookData = [];
 let overlay;
+const bookCollection = document.querySelectorAll(".book");
+let newBookCollection = Array.from(bookCollection);
 function getBookData() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             const response = yield fetch("https://my-json-server.typicode.com/zocom-christoffer-wallenberg/books-api/books");
             this.bookData = yield response.json();
-            getBook(this.bookData);
         }
         catch (error) {
             if (error instanceof Error) {
@@ -26,10 +26,28 @@ function getBookData() {
         }
     });
 }
-function showBookInfo() {
+function searchBook() {
+    let searchForm = document.getElementById("search-form");
+    searchForm.addEventListener("submit", (event) => {
+        event.preventDefault();
+        let searchField = document.getElementById("search");
+        let searchValue = searchField.value.toLowerCase();
+        if (searchValue.length < 3) {
+            return;
+        }
+        let clickedBook = this.bookData.find((book) => book.title.toLowerCase().includes(searchValue));
+        if (clickedBook) {
+            createBookInfo(clickedBook);
+        }
+        else {
+            console.log("Ingen bok hittades med den söksträngen");
+        }
+        searchField.value = "";
+    });
+}
+searchBook();
+function showBookInfo(newBookCollection) {
     getBookData();
-    const bookCollection = document.querySelectorAll(".book");
-    let newBookCollection = Array.from(bookCollection);
     newBookCollection.forEach((book) => {
         book.addEventListener("click", () => {
             let bookTitle = book.dataset.title;
@@ -97,8 +115,5 @@ function addOverlay() {
     document.body.appendChild(overlay);
     return overlay;
 }
-function getBook(bookData) {
-    bookData.forEach((book) => {
-    });
-}
-showBookInfo();
+showBookInfo(newBookCollection);
+export {};

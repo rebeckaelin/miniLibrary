@@ -1,5 +1,16 @@
 // INTERFACES
-import {Book} from "./interfaces";
+// import {Book} from "./interfaces.js";
+
+interface Book {
+  title: string;
+  author: string;
+  plot: string;
+  audience: string;
+  year: number;
+  pages: number;
+  publisher: string;
+  color: string;
+}
 
 let overlay: HTMLDivElement;
 

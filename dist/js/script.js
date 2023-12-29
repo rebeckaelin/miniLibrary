@@ -116,4 +116,3 @@ function addOverlay() {
     return overlay;
 }
 showBookInfo(newBookCollection);
-export {};

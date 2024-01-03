@@ -1,5 +1,3 @@
-länk till github pages: https://rebeckaelin.github.io/mini_Library/
-
 PSEUDOKOD
 
 funktion för att hämta data från API

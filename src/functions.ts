@@ -24,7 +24,7 @@ const createBookElement = (bookArray: Book[]) => {
   searchForm.addEventListener("keyup", () => {
     searchBook(searchForm.value);
   });
-  bookArray.forEach((book) => {
+  bookArray.forEach((book: Book) => {
     const bookCollection: HTMLDivElement =
       document.querySelector(".book-collection");
     const bookWrapper: HTMLDivElement = document.createElement("div");
@@ -43,17 +43,17 @@ const createBookElement = (bookArray: Book[]) => {
   });
 };
 // funktion för att söka efter bok, filtrerar bort de som ej stämmer med sökning
-const searchBook = (keyword: string): void => {
+const searchBook = (searchword: string): void => {
   const bookElements: NodeListOf<HTMLElement> =
     document.querySelectorAll(".book-wrapper");
 
   let isMatchFound: boolean = false;
 
-  bookElements.forEach((bookElement) => {
+  bookElements.forEach((bookElement: HTMLElement) => {
     const bookTitle: string =
       bookElement.lastChild.firstChild.textContent.toLowerCase();
 
-    if (bookTitle.includes(keyword.toLowerCase())) {
+    if (bookTitle.includes(searchword.toLowerCase())) {
       bookElement.classList.remove("hide");
       isMatchFound = true;
     } else {
@@ -61,7 +61,7 @@ const searchBook = (keyword: string): void => {
     }
   });
 
-  let noMatchMessage = document.querySelector(".no-match-message");
+  let noMatchMessage: Element = document.querySelector(".no-match-message");
   if (!isMatchFound) {
     if (!noMatchMessage) {
       noMatchMessage = document.createElement("p");

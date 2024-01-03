@@ -43,12 +43,12 @@ const createBookElement = (bookArray) => {
         });
     });
 };
-const searchBook = (keyword) => {
+const searchBook = (searchword) => {
     const bookElements = document.querySelectorAll(".book-wrapper");
     let isMatchFound = false;
     bookElements.forEach((bookElement) => {
         const bookTitle = bookElement.lastChild.firstChild.textContent.toLowerCase();
-        if (bookTitle.includes(keyword.toLowerCase())) {
+        if (bookTitle.includes(searchword.toLowerCase())) {
             bookElement.classList.remove("hide");
             isMatchFound = true;
         }

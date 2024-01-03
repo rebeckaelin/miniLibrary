@@ -136,5 +136,8 @@ function addOverlay(): HTMLDivElement {
   document.body.appendChild(overlay);
   return overlay;
 }
-
-export {getBookData, createBookElement};
+const loadBooks = async (): Promise<void> => {
+  const bookData = await getBookData();
+  createBookElement(bookData);
+};
+export {loadBooks};

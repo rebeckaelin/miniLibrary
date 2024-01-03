@@ -7,31 +7,28 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-let overlay;
 const loadBooks = () => __awaiter(void 0, void 0, void 0, function* () {
     const bookData = yield getBookData();
     createBookElement(bookData);
 });
 loadBooks();
-function getBookData() {
-    return __awaiter(this, void 0, void 0, function* () {
-        try {
-            const response = yield fetch("https://my-json-server.typicode.com/zocom-christoffer-wallenberg/books-api/books");
-            let bookData = yield response.json();
-            return bookData;
+const getBookData = () => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const response = yield fetch("https://my-json-server.typicode.com/zocom-christoffer-wallenberg/books-api/books");
+        let bookData = yield response.json();
+        return bookData;
+    }
+    catch (error) {
+        if (error instanceof Error) {
+            console.log("Error", error.message);
         }
-        catch (error) {
-            if (error instanceof Error) {
-                console.log("Error", error.message);
-            }
-            else {
-                console.log("Unknown error", error);
-                return [];
-            }
+        else {
+            console.log("Unknown error", error);
+            return [];
         }
-    });
-}
-function createBookElement(bookArray) {
+    }
+});
+const createBookElement = (bookArray) => {
     const searchForm = document.getElementById("search");
     searchForm.addEventListener("keyup", () => {
         searchBook(searchForm.value);
@@ -46,15 +43,12 @@ function createBookElement(bookArray) {
         coverTitle.textContent = book.title;
         bookWrapper.append(bookElement, coverTitle);
         bookCollection.append(bookWrapper);
-        addClickEvent(bookElement, book);
+        bookElement.addEventListener("click", () => {
+            createBookInfo(book);
+        });
     });
-}
-function addClickEvent(bookElement, book) {
-    bookElement.addEventListener("click", () => {
-        createBookInfo(book);
-    });
-}
-function searchBook(keyword) {
+};
+const searchBook = (keyword) => {
     const bookElements = document.querySelectorAll(".book-wrapper");
     let isMatchFound = false;
     bookElements.forEach((bookElement) => {
@@ -80,9 +74,9 @@ function searchBook(keyword) {
     else if (noMatchMessage) {
         noMatchMessage.remove();
     }
-}
-function createBookInfo(clickedBook) {
-    overlay = addOverlay();
+};
+const createBookInfo = (clickedBook) => {
+    let overlay = addOverlay();
     let infoPage = document.createElement("article");
     let details = document.createElement("section");
     let closeButton = document.createElement("button");
@@ -128,9 +122,9 @@ function createBookInfo(clickedBook) {
     details.appendChild(published);
     details.appendChild(numOfPages);
     details.appendChild(publisher);
-}
+};
 function addOverlay() {
-    overlay = document.createElement("div");
+    let overlay = document.createElement("div");
     overlay.classList.add("overlay");
     document.body.appendChild(overlay);
     return overlay;

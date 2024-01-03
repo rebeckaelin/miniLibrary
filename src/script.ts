@@ -1,9 +1,6 @@
 // INTERFACES
 import {Book} from "./interfaces.js";
 
-// VARIABEL FÖR MIN OVERLAY
-let overlay: HTMLDivElement;
-
 const loadBooks = async (): Promise<void> => {
   const bookData = await getBookData();
   createBookElement(bookData);
@@ -13,7 +10,7 @@ loadBooks();
 //   ******************** FUNKTIONER *************************
 
 // fetch av data
-async function getBookData(): Promise<Book[]> {
+const getBookData = async (): Promise<Book[]> => {
   try {
     const response: Response = await fetch(
       "https://my-json-server.typicode.com/zocom-christoffer-wallenberg/books-api/books"
@@ -28,9 +25,9 @@ async function getBookData(): Promise<Book[]> {
       return [];
     }
   }
-}
+};
 
-function createBookElement(bookArray: Book[]) {
+const createBookElement = (bookArray: Book[]) => {
   const searchForm = document.getElementById("search") as HTMLInputElement;
   searchForm.addEventListener("keyup", () => {
     searchBook(searchForm.value);
@@ -48,17 +45,13 @@ function createBookElement(bookArray: Book[]) {
 
     bookWrapper.append(bookElement, coverTitle);
     bookCollection.append(bookWrapper);
-    addClickEvent(bookElement, book);
+    bookElement.addEventListener("click", () => {
+      createBookInfo(book);
+    });
   });
-}
+};
 
-function addClickEvent(bookElement: HTMLDivElement, book: Book) {
-  bookElement.addEventListener("click", () => {
-    createBookInfo(book);
-  });
-}
-
-function searchBook(keyword: string): void {
+const searchBook = (keyword: string): void => {
   const bookElements: NodeListOf<HTMLElement> =
     document.querySelectorAll(".book-wrapper");
 
@@ -88,10 +81,10 @@ function searchBook(keyword: string): void {
   } else if (noMatchMessage) {
     noMatchMessage.remove();
   }
-}
+};
 
-function createBookInfo(clickedBook: Book): void {
-  overlay = addOverlay();
+const createBookInfo = (clickedBook: Book): void => {
+  let overlay: HTMLDivElement = addOverlay();
 
   let infoPage: HTMLElement = document.createElement("article");
   let details: HTMLElement = document.createElement("section");
@@ -145,10 +138,10 @@ function createBookInfo(clickedBook: Book): void {
   details.appendChild(published);
   details.appendChild(numOfPages);
   details.appendChild(publisher);
-}
+};
 
 function addOverlay(): HTMLDivElement {
-  overlay = document.createElement("div");
+  let overlay: HTMLDivElement = document.createElement("div");
   overlay.classList.add("overlay");
   document.body.appendChild(overlay);
   return overlay;

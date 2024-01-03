@@ -1,32 +1,18 @@
 // INTERFACES
-// import {Book} from "./interfaces.js";
+import {Book} from "./interfaces.js";
 
-interface Book {
-  title: string;
-  author: string;
-  plot: string;
-  audience: string;
-  year: number;
-  pages: number;
-  publisher: string;
-  color: string;
-}
-
+// VARIABEL FÖR MIN OVERLAY
 let overlay: HTMLDivElement;
 
-const bookCollection: NodeListOf<HTMLDivElement> =
-  document.querySelectorAll(".book");
-
-let newBookCollection: HTMLDivElement[] = Array.from(bookCollection);
 // fetch av data
-
 async function getBookData(): Promise<void> {
   try {
     const response: Response = await fetch(
       "https://my-json-server.typicode.com/zocom-christoffer-wallenberg/books-api/books"
     );
-    this.bookData = await response.json();
-    // console.log(this.bookData);
+    let bookData: Book[] = await response.json();
+    createBookElement(bookData);
+    searchBook(bookData);
   } catch (error: unknown) {
     if (error instanceof Error) {
       console.log("Error", error.message);
@@ -35,55 +21,97 @@ async function getBookData(): Promise<void> {
     }
   }
 }
+getBookData();
+
+function createBookElement(bookArray: Book[]) {
+  bookArray.forEach((book) => {
+    const bookCollection = document.querySelector(".book-collection");
+
+    let bookElement: HTMLDivElement = document.createElement("div");
+    bookElement.className = "book";
+    let coverTitle: HTMLElement = document.createElement("h3");
+    coverTitle.textContent = book.title;
+
+    bookCollection.append(bookElement);
+    bookCollection.append(coverTitle);
+    addClickEvent(bookElement, book);
+  });
+}
+
+function addClickEvent(bookElement: HTMLDivElement, book: Book) {
+  bookElement.addEventListener("click", () => {
+    createBookInfo(book);
+  });
+}
 
 //   ******************** FUNKTIONER *************************
 
-function searchBook(): void {
-  let searchForm = document.getElementById("search-form") as HTMLFormElement;
+function searchBook(bookData: Book[]): void {
+  const searchForm = document.getElementById("search-form") as HTMLFormElement;
+
   searchForm.addEventListener("submit", (event: SubmitEvent) => {
     event.preventDefault();
-    let searchField = document.getElementById("search") as HTMLInputElement;
+
+    const searchField = document.getElementById("search") as HTMLInputElement;
     let searchValue: string = searchField.value.toLowerCase();
-    // console.log(searchValue);
 
-    if (searchValue.length < 3) {
-      return;
-    }
-
-    let clickedBook: Book | undefined = this.bookData.find((book: Book) =>
+    let foundBooks: Book[] = bookData.filter((book: Book) =>
       book.title.toLowerCase().includes(searchValue)
     );
-
-    if (clickedBook) {
-      createBookInfo(clickedBook);
+    if (foundBooks.length >= 2) {
+      // searchResult(foundBooks);
+      foundBooks.forEach((book) => {
+        let result = document.createElement("div");
+        result.className = "search-result";
+        result.append(book.title);
+        console.log("sökresultat");
+      });
+    }
+    if (foundBooks.length === 1) {
+      foundBooks.forEach((book) => {
+        createBookInfo(book);
+      });
     } else {
       console.log("Ingen bok hittades med den söksträngen");
     }
+
     searchField.value = "";
   });
 }
 
-searchBook();
+// function searchResult(foundBooks: Book[]) {
+//   foundBooks.forEach((book) => {
+//     let result = document.createElement("div");
+//     result.className = "search-result";
+//     result.append(book.title);
+//     console.log("sökresultat");
+//   });
+// }
 
-function showBookInfo(newBookCollection: HTMLDivElement[]): void {
-  getBookData();
+// function searchBook(bookData: Book[]): void {
+//   const searchForm = document.getElementById("search-form") as HTMLFormElement;
+//   searchForm.addEventListener("submit", (event: SubmitEvent) => {
+//     event.preventDefault();
+//     const searchField = document.getElementById("search") as HTMLInputElement;
+//     let searchValue: string = searchField.value.toLowerCase();
+//     // console.log(searchValue);
 
-  newBookCollection.forEach((book: HTMLDivElement) => {
-    book.addEventListener("click", (): void => {
-      let bookTitle: string = book.dataset.title;
-      let clickedBook: Book | undefined = this.bookData.find(
-        (book: Book) => book.title === bookTitle
-      );
+//     if (searchValue.length < 3) {
+//       return;
+//     }
 
-      if (clickedBook) {
-        // console.log("klick:", clickedBook.title);
-        createBookInfo(clickedBook);
-      } else {
-        console.log("Ingen bok hittades med den titeln");
-      }
-    });
-  });
-}
+//     let clickedBook: Book | undefined = bookData.find((book: Book) =>
+//       book.title.toLowerCase().includes(searchValue)
+//     );
+
+//     if (clickedBook) {
+//       createBookInfo(clickedBook);
+//     } else {
+//       console.log("Ingen bok hittades med den söksträngen");
+//     }
+//     searchField.value = "";
+//   });
+// }
 
 function createBookInfo(clickedBook: Book): void {
   overlay = addOverlay();
@@ -148,5 +176,3 @@ function addOverlay(): HTMLDivElement {
   document.body.appendChild(overlay);
   return overlay;
 }
-
-showBookInfo(newBookCollection);

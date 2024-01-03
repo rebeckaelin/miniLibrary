@@ -1,5 +1,7 @@
+// importering av interfacet Book från filen interfaces
 import {Book} from "./interfaces";
-// fetch av data
+
+// fetch av data från APIet
 const getBookData = async (): Promise<Book[]> => {
   try {
     const response: Response = await fetch(
@@ -16,7 +18,7 @@ const getBookData = async (): Promise<Book[]> => {
     }
   }
 };
-
+// funktion för att skapa ett element per bok i APIet
 const createBookElement = (bookArray: Book[]) => {
   const searchForm = document.getElementById("search") as HTMLInputElement;
   searchForm.addEventListener("keyup", () => {
@@ -40,7 +42,7 @@ const createBookElement = (bookArray: Book[]) => {
     });
   });
 };
-
+// funktion för att söka efter bok, filtrerar bort de som ej stämmer med sökning
 const searchBook = (keyword: string): void => {
   const bookElements: NodeListOf<HTMLElement> =
     document.querySelectorAll(".book-wrapper");
@@ -72,7 +74,7 @@ const searchBook = (keyword: string): void => {
     noMatchMessage.remove();
   }
 };
-
+// funktion för att skapa inforuta för den bok man klickar på
 const createBookInfo = (clickedBook: Book): void => {
   let overlay: HTMLDivElement = addOverlay();
 
@@ -129,15 +131,17 @@ const createBookInfo = (clickedBook: Book): void => {
   details.appendChild(numOfPages);
   details.appendChild(publisher);
 };
-
+// funktion för att lägga till en overlay på bodyelementet när inforutan visas
 function addOverlay(): HTMLDivElement {
   let overlay: HTMLDivElement = document.createElement("div");
   overlay.classList.add("overlay");
   document.body.appendChild(overlay);
   return overlay;
 }
+// "main function" som hanterar övriga delar
 const loadBooks = async (): Promise<void> => {
   const bookData = await getBookData();
   createBookElement(bookData);
 };
+// exporterar nödvändiga funktioner till script.ts filen
 export {loadBooks};

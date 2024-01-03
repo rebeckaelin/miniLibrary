@@ -124,4 +124,8 @@ function addOverlay() {
     document.body.appendChild(overlay);
     return overlay;
 }
-export { getBookData, createBookElement };
+const loadBooks = () => __awaiter(void 0, void 0, void 0, function* () {
+    const bookData = yield getBookData();
+    createBookElement(bookData);
+});
+export { loadBooks };

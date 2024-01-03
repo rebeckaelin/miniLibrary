@@ -8,13 +8,17 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 let overlay;
+const loadBooks = () => __awaiter(void 0, void 0, void 0, function* () {
+    const bookData = yield getBookData();
+    createBookElement(bookData);
+});
+loadBooks();
 function getBookData() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             const response = yield fetch("https://my-json-server.typicode.com/zocom-christoffer-wallenberg/books-api/books");
             let bookData = yield response.json();
-            createBookElement(bookData);
-            searchBook(bookData);
+            return bookData;
         }
         catch (error) {
             if (error instanceof Error) {
@@ -22,20 +26,26 @@ function getBookData() {
             }
             else {
                 console.log("Unknown error", error);
+                return [];
             }
         }
     });
 }
-getBookData();
 function createBookElement(bookArray) {
+    const searchForm = document.getElementById("search");
+    searchForm.addEventListener("keyup", () => {
+        searchBook(searchForm.value);
+    });
     bookArray.forEach((book) => {
         const bookCollection = document.querySelector(".book-collection");
-        let bookElement = document.createElement("div");
+        const bookWrapper = document.createElement("div");
+        bookWrapper.className = "book-wrapper";
+        const bookElement = document.createElement("div");
         bookElement.className = "book";
         let coverTitle = document.createElement("h3");
         coverTitle.textContent = book.title;
-        bookCollection.append(bookElement);
-        bookCollection.append(coverTitle);
+        bookWrapper.append(bookElement, coverTitle);
+        bookCollection.append(bookWrapper);
         addClickEvent(bookElement, book);
     });
 }
@@ -44,31 +54,32 @@ function addClickEvent(bookElement, book) {
         createBookInfo(book);
     });
 }
-function searchBook(bookData) {
-    const searchForm = document.getElementById("search-form");
-    searchForm.addEventListener("submit", (event) => {
-        event.preventDefault();
-        const searchField = document.getElementById("search");
-        let searchValue = searchField.value.toLowerCase();
-        let foundBooks = bookData.filter((book) => book.title.toLowerCase().includes(searchValue));
-        if (foundBooks.length >= 2) {
-            foundBooks.forEach((book) => {
-                let result = document.createElement("div");
-                result.className = "search-result";
-                result.append(book.title);
-                console.log("sökresultat");
-            });
-        }
-        if (foundBooks.length === 1) {
-            foundBooks.forEach((book) => {
-                createBookInfo(book);
-            });
+function searchBook(keyword) {
+    const bookElements = document.querySelectorAll(".book-wrapper");
+    let isMatchFound = false;
+    bookElements.forEach((bookElement) => {
+        const bookTitle = bookElement.lastChild.firstChild.textContent.toLowerCase();
+        if (bookTitle.includes(keyword.toLowerCase())) {
+            bookElement.classList.remove("hide");
+            isMatchFound = true;
         }
         else {
-            console.log("Ingen bok hittades med den söksträngen");
+            bookElement.classList.add("hide");
         }
-        searchField.value = "";
     });
+    let noMatchMessage = document.querySelector(".no-match-message");
+    if (!isMatchFound) {
+        if (!noMatchMessage) {
+            noMatchMessage = document.createElement("p");
+            noMatchMessage.classList.add("no-match-message");
+            noMatchMessage.textContent = "Inget resultat hittades";
+            let header = document.getElementById("header");
+            header.appendChild(noMatchMessage);
+        }
+    }
+    else if (noMatchMessage) {
+        noMatchMessage.remove();
+    }
 }
 function createBookInfo(clickedBook) {
     overlay = addOverlay();

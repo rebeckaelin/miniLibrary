@@ -31,20 +31,13 @@ header {
   text-align: center;
 }
 
-input[type="submit"] {
-  font-family: Kanit;
-  padding: 0.3rem;
-  border: none;
-  background: none;
-}
-
-input[type="submit"]:hover {
-  cursor: pointer;
-  background-color: rgb(145, 219, 219, 0.3);
-}
-
 input[type="search"] {
   padding: 0.4rem;
+}
+.header,
+p {
+  font-size: 1.4rem;
+  padding-top: 1rem;
 }
 
 .book-collection {
@@ -58,17 +51,11 @@ input[type="search"] {
   font-family: Kanit;
   font-size: 0.8rem;
 }
-.book-collection h3 {
-  margin-bottom: 1.5rem;
+.book-collection,
+h3 {
+  padding: 1rem 0;
+  text-align: center;
 }
-
-/* .image {
-  width: 12.5rem;
-  height: 15rem;
-  box-shadow: 10px 10px 5px -4px rgba(0, 0, 0, 0.31);
-  object-fit: fill;
-  cursor: pointer;
-} */
 
 article {
   position: fixed;
@@ -123,6 +110,11 @@ article section {
 }
 
 .search-result {
-  border: solid blue 3px;
-  z-index: 999;
+  margin-top: 1rem;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+.hide {
+  display: none;
 }

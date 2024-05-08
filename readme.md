@@ -1,4 +1,4 @@
-länk to github pages: https://rebeckaelin.github.io/mini_Library/
+länk to github pages: https://rebeckaelin.github.io/miniLibrary/
 
 PSEUDOKOD
 
